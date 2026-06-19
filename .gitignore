@@ -1,0 +1,17 @@
+.DS_Store
+*.log
+*.pid
+*.tmp
+*.bak
+*.tgz
+*.zip
+*.gcode
+*.3mf
+*.stl
+saved_variables.cfg
+moonraker.conf
+printer.cfg
+config.mksini
+local-state/
+private/
+secrets/
