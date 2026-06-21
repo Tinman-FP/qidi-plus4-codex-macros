@@ -21,6 +21,10 @@ useful, and properly credited.
 | Moonraker | <https://github.com/Arksine/moonraker> | API/control plane used for safe status checks, config upload/download, and restart verification. |
 | KAMP | <https://github.com/kyleisah/Klipper-Adaptive-Meshing-Purging> | Adaptive mesh/purge concept and the `PROFILE=kamp` mesh workflow assumed by the production macro. |
 | Beacon | <https://github.com/beacon3d/beacon_klipper> | Probe ecosystem context for Beacon-style mesh behavior on the tested machine. |
+| BIGTREETECH MMS | <https://github.com/bigtreetech/BIGTREETECH_MMS> | ViViD/Buffer install and configuration reference for the Max EZ staging package. |
+| BIGTREETECH ViViD wiki | <https://global.bttwiki.com/BIGTREETECH_ViViD.html> | ViViD hardware and ecosystem reference. |
+| Happy Hare | <https://github.com/moggieuk/Happy-Hare> | Alternative Python 3 Klipper MMU framework considered for later migration. |
+| `gcode_shell_command.py` by Eric Callahan | <https://github.com/Arksine/moonraker> | GPLv3 shell-command Klipper extra used by the staged PLR macros. |
 
 ## Local Provenance
 
@@ -48,6 +52,7 @@ This public release intentionally excludes:
 - Private LAN addresses.
 - Full live printer backups.
 - `saved_variables.cfg`.
+- Real MCU serial IDs.
 - Moonraker secrets or access tokens.
 - Raw logs.
 - G-code test output.

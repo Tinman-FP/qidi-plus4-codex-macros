@@ -10,6 +10,8 @@ The first release contains:
 - `macros/qidi_box_humidity_auto.cfg` - Qidi Box humidity maintenance helper.
 - `reference/baseline/qidi_print_start_production.before_adaptive_heat_soak.cfg`
   - pre-adaptive baseline used for the verified upgrade.
+- `maxez-vivid/` - offline staging package for the Qidi Plus 4 Max EZ build
+  with Nebula, EBB42 Gen 2, Mosquito, Beacon, PLR, and BTT ViViD notes.
 
 This repository is intentionally small. It does not publish raw printer
 backups, private IP addresses, SSH credentials, saved variables, G-code output,
@@ -47,6 +49,22 @@ Tested on William Tinney's Qidi Plus 4 running Klipper/Moonraker with:
 
 These files are not drop-in universal Klipper configs. Read
 [docs/install.md](docs/install.md) before installing.
+
+## Max EZ ViViD Staging
+
+The `maxez-vivid/` package is a separate, offline-ready build path for a Qidi
+Plus 4 Max EZ moving from the legacy Qidi Box path to BTT ViViD. It keeps the
+Max EZ baseline MCU pins and applies only the requested toolhead changes:
+
+- Nebula extruder on EBB42 Gen 2.
+- Mosquito heater on `EBB:PB0`.
+- Mosquito thermistor on `EBB:PA1`.
+- No active fans assigned to the EBB42 Gen 2.
+- Qidi Box includes disabled because the legacy binary extras are not suitable
+  for the fresh Python 3 Klipper build.
+
+The ViViD files are staged as bring-up notes and templates until the physical
+serial IDs, sensor pins, cutter path, and purge/brush coordinates are validated.
 
 ## Credits
 

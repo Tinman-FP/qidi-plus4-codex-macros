@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-06-21
+
+- Added `maxez-vivid/` offline staging package for the Qidi Plus 4 Max EZ
+  conversion to Nebula, EBB42 Gen 2, Mosquito, Beacon, PLR, and BTT ViViD.
+- Added Pi copy script with Moonraker active-print guard.
+- Added ViViD/BTT MMS bring-up notes and staged override template.
+- Expanded validation and release-scope checks for the new Max EZ package.
+
 ## 2026-06-19
 
 - Public initial release.

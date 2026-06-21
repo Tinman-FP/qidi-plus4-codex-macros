@@ -57,3 +57,22 @@ Verified production order:
 
 William Tinney reported that the Qidi worked great after multiple prints using
 the new code. This public release was prepared after that real-world validation.
+
+## Max EZ ViViD Staging Checks
+
+The Max EZ ViViD package is offline-staged, not live-validated on hardware yet.
+Release checks cover:
+
+- Placeholder serial IDs are used instead of publishing machine identifiers.
+- The main Max EZ MCU pin definitions remain in `printer.cfg`.
+- The Nebula/EBB42 Gen 2 extruder uses `EBB:PB0` for heater output and
+  `EBB:PA1` for the Mosquito thermistor.
+- No active EBB42 fan pins are assigned.
+- Qidi Box includes are disabled while the Python 3 ViViD path is staged.
+- PLR shell-command support files are included.
+- The offline installer refuses to copy files if Moonraker reports an active
+  print.
+
+Hardware validation still needs to prove actual serial IDs, Beacon contact
+homing, ViViD/Buffer wiring, entry sensor wiring, cutter behavior, purge/brush
+coordinates, and slicer tool-change behavior.

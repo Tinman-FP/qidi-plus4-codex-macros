@@ -85,3 +85,30 @@ Useful commands:
 - `BOX_HUMIDITY_AUTO_STATUS`
 - `BOX_HUMIDITY_AUTO_ENABLE TEMP=40 HIGH=19 LOW=14 POLL=30`
 - `BOX_HUMIDITY_AUTO_DISABLE`
+
+## Max EZ ViViD Package
+
+The `maxez-vivid/` package is for the separate Qidi Plus 4 Max EZ conversion
+with Nebula, EBB42 Gen 2, Mosquito, Beacon, PLR, and BTT ViViD staging.
+
+Use it only after filling in the target machine's serial IDs:
+
+- Main Max EZ MCU in `maxez-vivid/printer.cfg`.
+- EBB42 Gen 2 MCU in `maxez-vivid/printer.cfg`.
+- Beacon probe in `maxez-vivid/printer.cfg`.
+- ViViD and Buffer MCUs in BTT's `bigtreetech-mms/mms/mms.cfg`.
+
+When the Pi is reachable, run:
+
+```bash
+./maxez-vivid/install-offline.sh --host <pi-hostname-or-address>
+```
+
+The installer checks Moonraker when available and refuses to copy files if a
+print is active. It copies staged files and leaves Klipper restart explicit
+unless `--restart` is supplied.
+
+Install BTT MMS separately on the Pi from BTT's official repository, then copy
+confirmed values from
+`maxez-vivid/vivid/maxez-vivid-overrides.template.cfg` into the BTT MMS files.
+Do not include that template directly.

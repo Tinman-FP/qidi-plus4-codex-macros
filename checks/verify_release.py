@@ -16,6 +16,32 @@ EXPECTED_SHA256 = {
     "macros/qidi_box_humidity_auto.cfg": "c937137b2e85da1d88b11a23caa4b94173819e7a7f42290d87f55629feba6feb",
 }
 
+REQUIRED_FILES = [
+    "README.md",
+    "docs/install.md",
+    "docs/release-scope.md",
+    "docs/validation.md",
+    "macros/qidi_print_start_production.cfg",
+    "macros/qidi_box_humidity_auto.cfg",
+    "reference/baseline/qidi_print_start_production.before_adaptive_heat_soak.cfg",
+    "maxez-vivid/README.md",
+    "maxez-vivid/install-offline.sh",
+    "maxez-vivid/printer.cfg",
+    "maxez-vivid/config/maxez_mainsail_core.cfg",
+    "maxez-vivid/config/maxez_qidi_macros.cfg",
+    "maxez-vivid/config/plr.cfg",
+    "maxez-vivid/config/qidi_print_start_production.cfg",
+    "maxez-vivid/config/saved_variables.seed.cfg",
+    "maxez-vivid/extras/gcode_shell_command.py",
+    "maxez-vivid/scripts/plr/plr.sh",
+    "maxez-vivid/scripts/plr/update_gcode_lines.sh",
+    "maxez-vivid/scripts/plr/plr_record",
+    "maxez-vivid/vivid/README.md",
+    "maxez-vivid/vivid/mms-install-notes.md",
+    "maxez-vivid/vivid/happy-hare-notes.md",
+    "maxez-vivid/vivid/maxez-vivid-overrides.template.cfg",
+]
+
 SECRET_PATTERNS = [
     re.compile(r"192\\.168\\.\\d+\\.\\d+"),
     re.compile(r"100\\.105\\.\\d+\\.\\d+"),
@@ -42,6 +68,13 @@ def assert_sha_manifest() -> None:
         actual = sha256(ROOT / rel)
         if actual != expected:
             raise AssertionError(f"{rel} sha256 {actual} != {expected}")
+
+
+def assert_required_files() -> None:
+    for rel in REQUIRED_FILES:
+        path = ROOT / rel
+        if not path.is_file():
+            raise AssertionError(f"missing required file: {rel}")
 
 
 def assert_no_private_artifacts() -> None:
@@ -95,10 +128,78 @@ def assert_adaptive_macro_shape() -> None:
         raise AssertionError("adaptive production-start sequence order is wrong")
 
 
+def assert_maxez_vivid_package() -> None:
+    printer_cfg = (ROOT / "maxez-vivid/printer.cfg").read_text()
+    required_printer_tokens = [
+        "[include maxez_mainsail_core.cfg]",
+        "[include maxez_qidi_macros.cfg]",
+        "[include qidi_print_start_production.cfg]",
+        "[include plr.cfg]",
+        "serial: /dev/serial/by-id/<max-ez-main-mcu>",
+        "serial: /dev/serial/by-id/<ebb42-gen2-mcu>",
+        "serial: /dev/serial/by-id/<beacon-probe>",
+        "[mcu EBB]",
+        "heater_pin: EBB:PB0",
+        "sensor_pin: EBB:PA1",
+        "sensor_type: ATC Semitec 104GT-2",
+        "pin: PC2 #Fan 6",
+        "[fan_generic auxiliary_cooling_fan]",
+        "pin: PA4",
+        "[fan_generic chamber_circulation_fan]",
+        "pin: PA3",
+    ]
+    for token in required_printer_tokens:
+        if token not in printer_cfg:
+            raise AssertionError(f"maxez-vivid/printer.cfg missing {token!r}")
+
+    forbidden_active_includes = [
+        "box.cfg",
+        "codex_qidi_box_live_candidate.cfg",
+        "qidi_box_humidity_auto.cfg",
+        "SO3.cfg",
+        "Macros.cfg",
+    ]
+    for include in forbidden_active_includes:
+        if re.search(rf"(?m)^\\s*\\[include\\s+{re.escape(include)}\\]", printer_cfg):
+            raise AssertionError(f"legacy include is active in maxez printer.cfg: {include}")
+
+    install_script = (ROOT / "maxez-vivid/install-offline.sh").read_text()
+    required_script_tokens = [
+        "print_stats",
+        "virtual_sdcard",
+        "Refusing to install",
+        "scp",
+        "gcode_shell_command.py",
+    ]
+    for token in required_script_tokens:
+        if token not in install_script:
+            raise AssertionError(f"install script missing {token!r}")
+
+    plr_cfg = (ROOT / "maxez-vivid/config/plr.cfg").read_text()
+    for token in ["[gcode_shell_command POWER_LOSS_RESUME]", "RESUME_INTERRUPTED", "profile_name"]:
+        if token not in plr_cfg:
+            raise AssertionError(f"PLR config missing {token!r}")
+
+    template = (ROOT / "maxez-vivid/vivid/maxez-vivid-overrides.template.cfg").read_text()
+    required_template_tokens = [
+        "[mcu buffer]",
+        "[mcu vivid]",
+        "[mms cut]",
+        "enable: 0",
+        "tray_point: (95.0, 324.0)",
+        "wipe_points: (58.0, 324.0), (78.0, 324.0)",
+    ]
+    for token in required_template_tokens:
+        if token not in template:
+            raise AssertionError(f"ViViD template missing {token!r}")
+
+
 def main() -> int:
+    assert_required_files()
     assert_sha_manifest()
     assert_no_private_artifacts()
     assert_adaptive_macro_shape()
+    assert_maxez_vivid_package()
     print("release checks passed")
     return 0
 
