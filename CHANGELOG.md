@@ -16,6 +16,8 @@
   Beacon configuration.
 - Set Max EZ X/Y sensorless homing current and hold current to 0.75A during
   live CoreXY bring-up.
+- Reduced Max EZ Z/Z1 hold current to 0.75A after TMC overtemp shutdown while
+  leaving Z run current at 1.07A.
 - Updated the Max EZ Mosquito hotend template to use the live-verified
   Slice RTD Pt1000 on the EBB42 Gen 2 thermistor input.
 - Published the `maxez-vivid/printer.cfg` template by adding a scoped
