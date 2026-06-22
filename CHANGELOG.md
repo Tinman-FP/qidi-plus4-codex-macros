@@ -6,6 +6,9 @@
   and purge/wipe helper macros into the Max EZ macro package.
 - Reduced Max EZ X/Y Beacon pre-home current to 0.5A while leaving configured
   run and hold currents unchanged.
+- Added a temporary Max EZ motion-bringup mode that comments out the flaky
+  EBB42/extruder sections, keeps the main-board motion system active, and
+  swaps the Z motor position mapping for the suspected reversed Z plugs.
 - Corrected Max EZ Z-tilt probe points to `X260 Y152.5` and `X40 Y152.5`,
   kept Beacon Z home at `X152.5 Y152.5`, and increased X/Y TMC2130
   sensorless homing sensitivity by one SGT increment.
