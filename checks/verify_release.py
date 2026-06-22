@@ -137,13 +137,15 @@ def assert_maxez_vivid_package() -> None:
         "[include plr.cfg]",
         "serial: /dev/serial/by-id/<max-ez-main-mcu>",
         "serial: /dev/serial/by-id/<beacon-probe>",
-        "EBB42 Gen2/toolhead temporarily disabled",
-        "#[mcu EBB]",
-        "#serial: /dev/serial/by-id/<ebb42-gen2-mcu>",
-        "#[extruder]",
-        "#heater_pin: EBB:PB0",
-        "#sensor_pin: EBB:PA1",
-        "#sensor_type: PT1000",
+        "[mcu EBB]",
+        "serial: /dev/serial/by-id/<ebb42-gen2-mcu>",
+        "[temperature_sensor EBB42]",
+        "[extruder]",
+        "heater_pin: EBB:PB0",
+        "sensor_pin: EBB:PA1",
+        "sensor_type: PT1000",
+        "[tmc2209 extruder]",
+        "uart_pin: EBB:PB3",
         "pin: PC2 #Fan 6",
         "[fan_generic auxiliary_cooling_fan]",
         "pin: PA4",
@@ -153,6 +155,26 @@ def assert_maxez_vivid_package() -> None:
     for token in required_printer_tokens:
         if token not in printer_cfg:
             raise AssertionError(f"maxez-vivid/printer.cfg missing {token!r}")
+
+    required_active_sections = [
+        "mcu EBB",
+        "temperature_sensor EBB42",
+        "extruder",
+        "tmc2209 extruder",
+        "heater_fan hotend_fan",
+    ]
+    for section in required_active_sections:
+        if not re.search(rf"(?m)^\[{re.escape(section)}\]\s*$", printer_cfg):
+            raise AssertionError(f"maxez-vivid/printer.cfg missing active section [{section}]")
+
+    forbidden_temporary_tokens = [
+        "EBB42 Gen2/toolhead temporarily disabled",
+        "#[mcu EBB]",
+        "#[extruder]",
+    ]
+    for token in forbidden_temporary_tokens:
+        if token in printer_cfg:
+            raise AssertionError(f"temporary disabled EBB marker still present: {token}")
 
     forbidden_active_includes = [
         "box.cfg",

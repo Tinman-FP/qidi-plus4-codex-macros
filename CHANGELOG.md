@@ -9,6 +9,9 @@
 - Added a temporary Max EZ motion-bringup mode that comments out the flaky
   EBB42/extruder sections, keeps the main-board motion system active, and
   swaps the Z motor position mapping for the suspected reversed Z plugs.
+- Re-enabled the Max EZ EBB42 Gen 2 toolhead template after live restart
+  validation, with active Nebula extruder, Mosquito heater, PT1000 thermistor,
+  and explicit X/Y homing hold-current preservation.
 - Corrected Max EZ Z-tilt probe points to `X260 Y152.5` and `X40 Y152.5`,
   kept Beacon Z home at `X152.5 Y152.5`, and increased X/Y TMC2130
   sensorless homing sensitivity by one SGT increment.
