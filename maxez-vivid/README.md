@@ -16,6 +16,25 @@ changes the toolhead path requested for this build:
 - EBB42 Gen 2 fans: unused.
 - Hotend cooling fan remains on the Max EZ harness at `PC2`.
 - Auxiliary and chamber fans remain on the Max EZ MCU as `PA4` and `PA3`.
+- Filament width sensor uses the BTT Octopus Max EZ `FWS` header at
+  `PC0`/`PF10`.
+
+## Filament Width Sensor Wiring
+
+Wire the Qidi Hall filament width sensor to the BTT Octopus Max EZ `FWS`
+connector. The BTT schematic labels this connector as `P2`:
+
+| FWS pin | Signal | Klipper pin |
+| --- | --- | --- |
+| 4 | 5V sensor power | n/a |
+| 3 | Ground | n/a |
+| 2 | ADC1 | `PC0` |
+| 1 | ADC2 | `PF10` |
+
+Do not trust harness colors without checking them. Use the board pin-1 marker
+and a meter to confirm `5V` and `GND` before plugging in the sensor. The
+software is installed as a runout/presence sensor first, with flow compensation
+disabled until the raw readings are calibrated on the live machine.
 
 ## Files
 

@@ -2,6 +2,10 @@
 
 ## 2026-06-22
 
+- Enabled the Max EZ `hall_filament_width_sensor` on the BTT Octopus Max EZ
+  `FWS` header (`PC0`/`PF10`) with flow compensation disabled for bring-up.
+- Documented the Max EZ FWS connector pinout for the Qidi Hall filament width
+  sensor.
 - Updated the Max EZ Mosquito hotend template to use the live-verified
   Slice RTD Pt1000 on the EBB42 Gen 2 thermistor input.
 - Published the `maxez-vivid/printer.cfg` template by adding a scoped
