@@ -4,6 +4,8 @@
 
 - Ported applicable `.145` Qidi Plus 4 Beacon/Z-offset, chamber, screw-adjust,
   and purge/wipe helper macros into the Max EZ macro package.
+- Reduced Max EZ X/Y Beacon pre-home current to 0.5A while leaving configured
+  run and hold currents unchanged.
 - Corrected Max EZ Z-tilt probe points to `X260 Y152.5` and `X40 Y152.5`,
   kept Beacon Z home at `X152.5 Y152.5`, and increased X/Y TMC2130
   sensorless homing sensitivity by one SGT increment.
