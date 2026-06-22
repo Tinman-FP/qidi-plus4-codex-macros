@@ -14,6 +14,8 @@
   behavior and corrected Z-tilt probe points for the active Beacon offset.
 - Matched the Max EZ Beacon X/Y homing order to the working Qidi `.145`
   Beacon configuration.
+- Set Max EZ X/Y sensorless homing current and hold current to 0.75A during
+  live CoreXY bring-up.
 - Updated the Max EZ Mosquito hotend template to use the live-verified
   Slice RTD Pt1000 on the EBB42 Gen 2 thermistor input.
 - Published the `maxez-vivid/printer.cfg` template by adding a scoped
