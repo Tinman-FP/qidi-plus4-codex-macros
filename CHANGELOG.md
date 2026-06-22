@@ -12,6 +12,8 @@
   during sensorless homing tests.
 - Matched the Max EZ Z driver hold current to the working Qidi `.145`
   behavior and corrected Z-tilt probe points for the active Beacon offset.
+- Matched the Max EZ Beacon X/Y homing order to the working Qidi `.145`
+  Beacon configuration.
 - Updated the Max EZ Mosquito hotend template to use the live-verified
   Slice RTD Pt1000 on the EBB42 Gen 2 thermistor input.
 - Published the `maxez-vivid/printer.cfg` template by adding a scoped
