@@ -2,6 +2,11 @@
 
 ## 2026-06-22
 
+- Ported applicable `.145` Qidi Plus 4 Beacon/Z-offset, chamber, screw-adjust,
+  and purge/wipe helper macros into the Max EZ macro package.
+- Corrected Max EZ Z-tilt probe points to `X260 Y152.5` and `X40 Y152.5`,
+  kept Beacon Z home at `X152.5 Y152.5`, and increased X/Y TMC2130
+  sensorless homing sensitivity by one SGT increment.
 - Enabled the Max EZ `hall_filament_width_sensor` on the BTT Octopus Max EZ
   `FWS` header (`PC0`/`PF10`) with flow compensation disabled for bring-up.
 - Documented the Max EZ FWS connector pinout for the Qidi Hall filament width
