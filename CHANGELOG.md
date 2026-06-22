@@ -10,6 +10,8 @@
   triggers.
 - Increased Max EZ X/Y TMC2130 hold current to 0.70A for stronger axis hold
   during sensorless homing tests.
+- Matched the Max EZ Z driver hold current to the working Qidi `.145`
+  behavior and corrected Z-tilt probe points for the active Beacon offset.
 - Updated the Max EZ Mosquito hotend template to use the live-verified
   Slice RTD Pt1000 on the EBB42 Gen 2 thermistor input.
 - Published the `maxez-vivid/printer.cfg` template by adding a scoped

@@ -18,6 +18,8 @@ changes the toolhead path requested for this build:
 - Auxiliary and chamber fans remain on the Max EZ MCU as `PA4` and `PA3`.
 - Filament width sensor uses the BTT Octopus Max EZ `FWS` header at
   `PC0`/`PF10`.
+- Z tilt keeps the working Qidi Plus 4 current/tolerance behavior while
+  compensating the probe points for the Max EZ Beacon offset.
 
 ## Filament Width Sensor Wiring
 
