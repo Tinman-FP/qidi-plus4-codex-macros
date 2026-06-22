@@ -141,7 +141,7 @@ def assert_maxez_vivid_package() -> None:
         "[mcu EBB]",
         "heater_pin: EBB:PB0",
         "sensor_pin: EBB:PA1",
-        "sensor_type: ATC Semitec 104GT-2",
+        "sensor_type: PT1000",
         "pin: PC2 #Fan 6",
         "[fan_generic auxiliary_cooling_fan]",
         "pin: PA4",

@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-06-22
+
+- Updated the Max EZ Mosquito hotend template to use the live-verified
+  Slice RTD Pt1000 on the EBB42 Gen 2 thermistor input.
+- Published the `maxez-vivid/printer.cfg` template by adding a scoped
+  `.gitignore` exception for that public placeholder config.
+
 ## 2026-06-21
 
 - Added `maxez-vivid/` offline staging package for the Qidi Plus 4 Max EZ
