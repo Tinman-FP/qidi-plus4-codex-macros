@@ -54,6 +54,25 @@ If any of these are missing, adapt the macro before installing.
    - `G29` is not present in `PRINT_START_PRODUCTION`
 8. Run a controlled print with supervision.
 
+## PLR Macro
+
+`macros/plr.cfg` replaces the stock Qidi `plr.cfg` macro layer. Install it only
+when idle, and keep a printer-side backup of the previous `plr.cfg`.
+
+This macro expects:
+
+- `/home/mks/scripts/plr/plr.sh`
+- `/home/mks/scripts/plr/update_gcode_lines.sh`
+- `gcode_shell_command`
+- `SAVE_VARIABLE`
+- `virtual_sdcard`
+- `bed_mesh`
+- `set_zoffset`
+
+Do not install it if another included file already defines
+`[gcode_macro SET_PRINT_STATS_INFO]`; merge the `_QIDI_PLR_CAPTURE_STATE` call
+into the existing wrapper instead.
+
 ## Parameters
 
 The macro defaults are:
@@ -107,6 +126,10 @@ When the Pi is reachable, run:
 The installer checks Moonraker when available and refuses to copy files if a
 print is active. It copies staged files and leaves Klipper restart explicit
 unless `--restart` is supplied.
+
+In the Max EZ package, slicer calls to `PRINT_START` are routed into
+`PRINT_START_PRODUCTION`, so existing start G-code can pick up the adaptive
+heat-soak path without changing slicer profiles.
 
 Install BTT MMS separately on the Pi from BTT's official repository, then copy
 confirmed values from

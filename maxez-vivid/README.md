@@ -63,6 +63,25 @@ The legacy Qidi Box includes remain disabled. The older Qidi Box Klipper extras
 were binary modules built for an older Python runtime, while the BTT ViViD/MMS
 path is Python 3-native.
 
+## Power-Loss Recovery
+
+The Max EZ PLR path is adapted for a full Klipper/Python 3 install rather than
+copied directly from the stock Plus 4 image. The included Mainsail
+`SET_PRINT_STATS_INFO` wrapper calls `_MAXEZ_PLR_CAPTURE_STATE` on layer updates
+so the machine persists the active virtual SD file, byte position, layer, Z
+height, and heater targets into `saved_variables.cfg`.
+
+`RESUME_INTERRUPTED` refuses to run unless an interrupted print, file path, Z
+height, and file position or line count are present. It also falls back from a
+missing saved bed-mesh profile to `default` when available, then passes explicit
+resume state into `scripts/plr/plr.sh`.
+
+## Start Macro Compatibility
+
+The package keeps `PRINT_START` as a slicer compatibility name, but routes it to
+`PRINT_START_PRODUCTION`. That keeps old slicer profiles working while making
+the adaptive heat-soak mesh path the default Max EZ start behavior.
+
 ## Install Preview
 
 When the Pi is back online:

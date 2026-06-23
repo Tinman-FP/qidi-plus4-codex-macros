@@ -21,6 +21,7 @@ REQUIRED_FILES = [
     "docs/install.md",
     "docs/release-scope.md",
     "docs/validation.md",
+    "macros/plr.cfg",
     "macros/qidi_print_start_production.cfg",
     "macros/qidi_box_humidity_auto.cfg",
     "reference/baseline/qidi_print_start_production.before_adaptive_heat_soak.cfg",
@@ -130,6 +131,27 @@ def assert_adaptive_macro_shape() -> None:
         raise AssertionError("adaptive production-start sequence order is wrong")
 
 
+def assert_qidi_plr_macro_shape() -> None:
+    plr_cfg = (ROOT / "macros/plr.cfg").read_text()
+    required = [
+        "[gcode_shell_command POWER_LOSS_RESUME]",
+        "command: bash /home/mks/scripts/plr/plr.sh",
+        "[gcode_shell_command SYNC]",
+        "[gcode_macro _QIDI_PLR_CAPTURE_STATE]",
+        "[gcode_macro SET_PRINT_STATS_INFO]",
+        "rename_existing: SET_PRINT_STATS_INFO_BASE",
+        "SAVE_VARIABLE VARIABLE=plr_file_position",
+        "SAVE_VARIABLE VARIABLE=plr_current_layer",
+        "RESUME_INTERRUPTED refused: missing saved file path/name for PLR",
+        "RESUME_INTERRUPTED refused: missing saved Z height for PLR",
+        "Missing bed mesh profile {requested_profile}; loading default",
+        "RUN_SHELL_COMMAND CMD=POWER_LOSS_RESUME PARAMS=",
+    ]
+    for token in required:
+        if token not in plr_cfg:
+            raise AssertionError(f"Qidi PLR macro missing {token!r}")
+
+
 def assert_maxez_vivid_package() -> None:
     printer_cfg = (ROOT / "maxez-vivid/printer.cfg").read_text()
     required_printer_tokens = [
@@ -157,6 +179,19 @@ def assert_maxez_vivid_package() -> None:
     for token in required_printer_tokens:
         if token not in printer_cfg:
             raise AssertionError(f"maxez-vivid/printer.cfg missing {token!r}")
+
+    maxez_macros = (ROOT / "maxez-vivid/config/maxez_qidi_macros.cfg").read_text()
+    print_start_match = re.search(
+        r"(?ms)^\[gcode_macro PRINT_START\]\s*(.*?)(?=^\[)",
+        maxez_macros,
+    )
+    if not print_start_match:
+        raise AssertionError("Max EZ macros missing [gcode_macro PRINT_START]")
+    print_start_body = print_start_match.group(1)
+    if "PRINT_START_PRODUCTION" not in print_start_body:
+        raise AssertionError("Max EZ PRINT_START must route to PRINT_START_PRODUCTION")
+    if re.search(r"(?m)^\s*G29\b", print_start_body):
+        raise AssertionError("Max EZ PRINT_START must not call the legacy G29 start path")
 
     required_active_sections = [
         "mcu EBB",
@@ -202,9 +237,41 @@ def assert_maxez_vivid_package() -> None:
             raise AssertionError(f"install script missing {token!r}")
 
     plr_cfg = (ROOT / "maxez-vivid/config/plr.cfg").read_text()
-    for token in ["[gcode_shell_command POWER_LOSS_RESUME]", "RESUME_INTERRUPTED", "profile_name"]:
+    required_plr_tokens = [
+        "[gcode_shell_command POWER_LOSS_RESUME]",
+        "[gcode_shell_command SYNC]",
+        "[gcode_macro _MAXEZ_PLR_CAPTURE_STATE]",
+        "plr_file_position",
+        "plr_current_layer",
+        "_MAXEZ_PLR_RESUME_AFTER_UPDATE",
+        "RESUME_INTERRUPTED refused: missing saved file position/line count for PLR",
+        "RUN_SHELL_COMMAND CMD=POWER_LOSS_RESUME PARAMS=",
+        "profile_name",
+    ]
+    for token in required_plr_tokens:
         if token not in plr_cfg:
             raise AssertionError(f"PLR config missing {token!r}")
+
+    mainsail_core = (ROOT / "maxez-vivid/config/maxez_mainsail_core.cfg").read_text()
+    if "_MAXEZ_PLR_CAPTURE_STATE LAYER={params.CURRENT_LAYER}" not in mainsail_core:
+        raise AssertionError("Mainsail SET_PRINT_STATS_INFO wrapper must capture Max EZ PLR state")
+
+    plr_script = (ROOT / "maxez-vivid/scripts/plr/plr.sh").read_text()
+    required_plr_script_tokens = [
+        "PLR_GCODE_ROOT",
+        "resolve_gcode_path",
+        "FILE_POSITION",
+        "head -c",
+        "Generated $SD_PATH/plr.gcode",
+    ]
+    for token in required_plr_script_tokens:
+        if token not in plr_script:
+            raise AssertionError(f"PLR script missing {token!r}")
+
+    update_script = (ROOT / "maxez-vivid/scripts/plr/update_gcode_lines.sh").read_text()
+    for token in ["PLR_RECORD_FILE", "plr_file_position", "head -c", "gcode_lines = $number"]:
+        if token not in update_script:
+            raise AssertionError(f"PLR line update script missing {token!r}")
 
     template = (ROOT / "maxez-vivid/vivid/maxez-vivid-overrides.template.cfg").read_text()
     required_template_tokens = [
@@ -225,6 +292,7 @@ def main() -> int:
     assert_sha_manifest()
     assert_no_private_artifacts()
     assert_adaptive_macro_shape()
+    assert_qidi_plr_macro_shape()
     assert_maxez_vivid_package()
     print("release checks passed")
     return 0
