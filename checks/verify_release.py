@@ -180,6 +180,19 @@ def assert_maxez_vivid_package() -> None:
         if token not in printer_cfg:
             raise AssertionError(f"maxez-vivid/printer.cfg missing {token!r}")
 
+    maxez_macros = (ROOT / "maxez-vivid/config/maxez_qidi_macros.cfg").read_text()
+    print_start_match = re.search(
+        r"(?ms)^\[gcode_macro PRINT_START\]\s*(.*?)(?=^\[)",
+        maxez_macros,
+    )
+    if not print_start_match:
+        raise AssertionError("Max EZ macros missing [gcode_macro PRINT_START]")
+    print_start_body = print_start_match.group(1)
+    if "PRINT_START_PRODUCTION" not in print_start_body:
+        raise AssertionError("Max EZ PRINT_START must route to PRINT_START_PRODUCTION")
+    if re.search(r"(?m)^\s*G29\b", print_start_body):
+        raise AssertionError("Max EZ PRINT_START must not call the legacy G29 start path")
+
     required_active_sections = [
         "mcu EBB",
         "temperature_sensor EBB42",

@@ -127,6 +127,10 @@ The installer checks Moonraker when available and refuses to copy files if a
 print is active. It copies staged files and leaves Klipper restart explicit
 unless `--restart` is supplied.
 
+In the Max EZ package, slicer calls to `PRINT_START` are routed into
+`PRINT_START_PRODUCTION`, so existing start G-code can pick up the adaptive
+heat-soak path without changing slicer profiles.
+
 Install BTT MMS separately on the Pi from BTT's official repository, then copy
 confirmed values from
 `maxez-vivid/vivid/maxez-vivid-overrides.template.cfg` into the BTT MMS files.

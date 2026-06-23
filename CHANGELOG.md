@@ -4,6 +4,9 @@
 
 - Added the live-verified `.145` Qidi Plus 4 `plr.cfg` with U1-style state
   capture, interrupted-resume validation, and missing mesh fallback behavior.
+- Routed Max EZ `PRINT_START` into `PRINT_START_PRODUCTION` so old slicer
+  profiles use the adaptive heat-soak mesh flow instead of the legacy `G29`
+  start path.
 - Hardened Max EZ power-loss recovery for the full Klipper/Python 3 package by
   capturing virtual SD file path, byte position, layer, Z height, and heater
   targets during layer updates.

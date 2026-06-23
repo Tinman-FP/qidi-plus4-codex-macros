@@ -76,6 +76,12 @@ height, and file position or line count are present. It also falls back from a
 missing saved bed-mesh profile to `default` when available, then passes explicit
 resume state into `scripts/plr/plr.sh`.
 
+## Start Macro Compatibility
+
+The package keeps `PRINT_START` as a slicer compatibility name, but routes it to
+`PRINT_START_PRODUCTION`. That keeps old slicer profiles working while making
+the adaptive heat-soak mesh path the default Max EZ start behavior.
+
 ## Install Preview
 
 When the Pi is back online:
