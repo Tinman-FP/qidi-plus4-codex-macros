@@ -11,8 +11,8 @@ project.
 
 This repository builds on the public firmware/configuration ecosystem around
 Klipper, Moonraker, QIDI Plus4, QIDI's Klipper fork, KAMP, Beacon,
-BIGTREETECH MMS/ViViD, and Happy Hare. Those projects remain governed by their
-own licenses and copyright notices.
+BIGTREETECH EBB, BIGTREETECH Nebula, BIGTREETECH MMS/ViViD, and Happy Hare.
+Those projects remain governed by their own licenses and copyright notices.
 
 This repository is not affiliated with or endorsed by QIDI, Klipper, Moonraker,
-KAMP, Beacon, BIGTREETECH, Happy Hare, or OpenAI.
+KAMP, Beacon, BIGTREETECH, BIQU, Happy Hare, or OpenAI.

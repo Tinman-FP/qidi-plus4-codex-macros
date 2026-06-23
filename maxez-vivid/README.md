@@ -20,6 +20,9 @@ changes the toolhead path requested for this build:
   `PC0`/`PF10`.
 - Z tilt keeps the working Qidi Plus 4 current/tolerance behavior while
   compensating the probe points for the Max EZ Beacon offset.
+- Nebula RGB, filament, and unload-button wiring is documented in
+  `wiring.md`, with an optional disabled template in
+  `config/nebula_controls.template.cfg`.
 
 ## Filament Width Sensor Wiring
 
@@ -44,6 +47,7 @@ disabled until the raw readings are calibrated on the live machine.
 | --- | --- |
 | `printer.cfg` | Main staged printer config with placeholder serial IDs. |
 | `config/` | Max EZ macro, Mainsail, PLR, and production-start includes. |
+| `wiring.md` | Physical wiring map for EBB42 Gen2, Nebula, Max EZ, Beacon, and FWS. |
 | `scripts/plr/` | Power-loss recovery helper scripts used by `plr.cfg`. |
 | `extras/gcode_shell_command.py` | Klipper extra required by the PLR shell commands. |
 | `vivid/` | ViViD bring-up notes and staged override template. |

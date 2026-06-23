@@ -33,6 +33,10 @@
   leaving Z run current at 1.07A.
 - Updated the Max EZ Mosquito hotend template to use the live-verified
   Slice RTD Pt1000 on the EBB42 Gen 2 thermistor input.
+- Added Max EZ wiring documentation for the Nebula RGB/button/filament
+  connector, EBB42 Gen2 used pins, and BTT Max EZ used pins.
+- Added a disabled Nebula controls template for the mapped EBB42 Gen2
+  `PB14`, `PA3`, and `PA2` optional signals.
 - Published the `maxez-vivid/printer.cfg` template by adding a scoped
   `.gitignore` exception for that public placeholder config.
 

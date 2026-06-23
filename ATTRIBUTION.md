@@ -21,6 +21,8 @@ useful, and properly credited.
 | Moonraker | <https://github.com/Arksine/moonraker> | API/control plane used for safe status checks, config upload/download, and restart verification. |
 | KAMP | <https://github.com/kyleisah/Klipper-Adaptive-Meshing-Purging> | Adaptive mesh/purge concept and the `PROFILE=kamp` mesh workflow assumed by the production macro. |
 | Beacon | <https://github.com/beacon3d/beacon_klipper> | Probe ecosystem context for Beacon-style mesh behavior on the tested machine. |
+| BIGTREETECH EBB | <https://github.com/bigtreetech/EBB> | EBB42 Gen2 pinout, sample configuration, and toolboard wiring reference for the Max EZ conversion. |
+| BIGTREETECH Nebula | <https://github.com/bigtreetech/Nebula> | Nebula extruder connector labels, RGB/button/filament behavior, rotation distance, and optional Klipper control template reference. |
 | BIGTREETECH MMS | <https://github.com/bigtreetech/BIGTREETECH_MMS> | ViViD/Buffer install and configuration reference for the Max EZ staging package. |
 | BIGTREETECH ViViD wiki | <https://global.bttwiki.com/BIGTREETECH_ViViD.html> | ViViD hardware and ecosystem reference. |
 | Happy Hare | <https://github.com/moggieuk/Happy-Hare> | Alternative Python 3 Klipper MMU framework considered for later migration. |
