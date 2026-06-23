@@ -2,6 +2,8 @@
 
 ## 2026-06-23
 
+- Added the live-verified `.145` Qidi Plus 4 `plr.cfg` with U1-style state
+  capture, interrupted-resume validation, and missing mesh fallback behavior.
 - Hardened Max EZ power-loss recovery for the full Klipper/Python 3 package by
   capturing virtual SD file path, byte position, layer, Z height, and heater
   targets during layer updates.

@@ -7,6 +7,8 @@ The first release contains:
 
 - `macros/qidi_print_start_production.cfg` - tested adaptive heat-soak
   production start macro.
+- `macros/plr.cfg` - live-verified U1-style PLR state capture and interrupted
+  resume validation for the stock Qidi Plus 4 Klipper layout.
 - `macros/qidi_box_humidity_auto.cfg` - Qidi Box humidity maintenance helper.
 - `reference/baseline/qidi_print_start_production.before_adaptive_heat_soak.cfg`
   - pre-adaptive baseline used for the verified upgrade.
@@ -36,6 +38,17 @@ adaptive heat-soak mesh loop:
 
 The tested production macro removes the previous hidden `G29` path from the
 production start sequence.
+
+## Power-Loss Recovery
+
+`macros/plr.cfg` hardens the stock Qidi PLR flow by recording active virtual SD
+state during layer updates. It persists the current file path, byte position,
+layer, Z height, and heater targets before a possible interruption.
+
+`RESUME_INTERRUPTED` validates the saved state before generating the recovery
+file. It refuses missing file or Z data, refuses to resume while virtual SD is
+already active, and falls back from a missing saved mesh profile to `default`
+when that profile exists.
 
 ## Compatibility
 

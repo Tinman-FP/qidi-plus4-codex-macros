@@ -21,6 +21,7 @@ REQUIRED_FILES = [
     "docs/install.md",
     "docs/release-scope.md",
     "docs/validation.md",
+    "macros/plr.cfg",
     "macros/qidi_print_start_production.cfg",
     "macros/qidi_box_humidity_auto.cfg",
     "reference/baseline/qidi_print_start_production.before_adaptive_heat_soak.cfg",
@@ -128,6 +129,27 @@ def assert_adaptive_macro_shape() -> None:
 
     if not (initial_g28 < initial_z_tilt < loop < final_g28 < final_z_tilt < final_mesh < nozzle_clear):
         raise AssertionError("adaptive production-start sequence order is wrong")
+
+
+def assert_qidi_plr_macro_shape() -> None:
+    plr_cfg = (ROOT / "macros/plr.cfg").read_text()
+    required = [
+        "[gcode_shell_command POWER_LOSS_RESUME]",
+        "command: bash /home/mks/scripts/plr/plr.sh",
+        "[gcode_shell_command SYNC]",
+        "[gcode_macro _QIDI_PLR_CAPTURE_STATE]",
+        "[gcode_macro SET_PRINT_STATS_INFO]",
+        "rename_existing: SET_PRINT_STATS_INFO_BASE",
+        "SAVE_VARIABLE VARIABLE=plr_file_position",
+        "SAVE_VARIABLE VARIABLE=plr_current_layer",
+        "RESUME_INTERRUPTED refused: missing saved file path/name for PLR",
+        "RESUME_INTERRUPTED refused: missing saved Z height for PLR",
+        "Missing bed mesh profile {requested_profile}; loading default",
+        "RUN_SHELL_COMMAND CMD=POWER_LOSS_RESUME PARAMS=",
+    ]
+    for token in required:
+        if token not in plr_cfg:
+            raise AssertionError(f"Qidi PLR macro missing {token!r}")
 
 
 def assert_maxez_vivid_package() -> None:
@@ -257,6 +279,7 @@ def main() -> int:
     assert_sha_manifest()
     assert_no_private_artifacts()
     assert_adaptive_macro_shape()
+    assert_qidi_plr_macro_shape()
     assert_maxez_vivid_package()
     print("release checks passed")
     return 0
