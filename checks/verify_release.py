@@ -202,9 +202,41 @@ def assert_maxez_vivid_package() -> None:
             raise AssertionError(f"install script missing {token!r}")
 
     plr_cfg = (ROOT / "maxez-vivid/config/plr.cfg").read_text()
-    for token in ["[gcode_shell_command POWER_LOSS_RESUME]", "RESUME_INTERRUPTED", "profile_name"]:
+    required_plr_tokens = [
+        "[gcode_shell_command POWER_LOSS_RESUME]",
+        "[gcode_shell_command SYNC]",
+        "[gcode_macro _MAXEZ_PLR_CAPTURE_STATE]",
+        "plr_file_position",
+        "plr_current_layer",
+        "_MAXEZ_PLR_RESUME_AFTER_UPDATE",
+        "RESUME_INTERRUPTED refused: missing saved file position/line count for PLR",
+        "RUN_SHELL_COMMAND CMD=POWER_LOSS_RESUME PARAMS=",
+        "profile_name",
+    ]
+    for token in required_plr_tokens:
         if token not in plr_cfg:
             raise AssertionError(f"PLR config missing {token!r}")
+
+    mainsail_core = (ROOT / "maxez-vivid/config/maxez_mainsail_core.cfg").read_text()
+    if "_MAXEZ_PLR_CAPTURE_STATE LAYER={params.CURRENT_LAYER}" not in mainsail_core:
+        raise AssertionError("Mainsail SET_PRINT_STATS_INFO wrapper must capture Max EZ PLR state")
+
+    plr_script = (ROOT / "maxez-vivid/scripts/plr/plr.sh").read_text()
+    required_plr_script_tokens = [
+        "PLR_GCODE_ROOT",
+        "resolve_gcode_path",
+        "FILE_POSITION",
+        "head -c",
+        "Generated $SD_PATH/plr.gcode",
+    ]
+    for token in required_plr_script_tokens:
+        if token not in plr_script:
+            raise AssertionError(f"PLR script missing {token!r}")
+
+    update_script = (ROOT / "maxez-vivid/scripts/plr/update_gcode_lines.sh").read_text()
+    for token in ["PLR_RECORD_FILE", "plr_file_position", "head -c", "gcode_lines = $number"]:
+        if token not in update_script:
+            raise AssertionError(f"PLR line update script missing {token!r}")
 
     template = (ROOT / "maxez-vivid/vivid/maxez-vivid-overrides.template.cfg").read_text()
     required_template_tokens = [

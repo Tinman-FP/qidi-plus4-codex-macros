@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-06-23
+
+- Hardened Max EZ power-loss recovery for the full Klipper/Python 3 package by
+  capturing virtual SD file path, byte position, layer, Z height, and heater
+  targets during layer updates.
+- Updated Max EZ interrupted-resume validation to refuse incomplete PLR state,
+  fall back from a missing saved mesh profile to `default`, and pass explicit
+  resume state into the PLR generator script.
+- Made the Max EZ PLR helper scripts path-aware and testable while preserving
+  the default `/home/pi` live-machine layout.
+
 ## 2026-06-22
 
 - Ported applicable `.145` Qidi Plus 4 Beacon/Z-offset, chamber, screw-adjust,
